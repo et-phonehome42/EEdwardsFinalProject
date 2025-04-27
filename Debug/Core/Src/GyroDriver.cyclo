@@ -1,0 +1,10 @@
+../Core/Src/GyroDriver.c:13:6:GyroInit	1
+../Core/Src/GyroDriver.c:50:6:GyroID	1
+../Core/Src/GyroDriver.c:57:6:GyroPower	1
+../Core/Src/GyroDriver.c:62:6:GyroTempGet	1
+../Core/Src/GyroDriver.c:70:6:GyroRegConfig	1
+../Core/Src/GyroDriver.c:76:9:GyroRegRead	1
+../Core/Src/GyroDriver.c:91:6:GyroRegWrite	1
+../Core/Src/GyroDriver.c:104:6:GyroHalVerify	1
+../Core/Src/GyroDriver.c:109:6:GyroCommEnable	1
+../Core/Src/GyroDriver.c:114:6:GyroCommDisable	1
