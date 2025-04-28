@@ -25,7 +25,7 @@ static uint8_t PlayerOneChoice = 1;
 static uint8_t current_position = COLUMN_FOUR;
 static uint8_t new_position = 0;
 static uint8_t previous_position =0;
-
+static uint8_t game_board[6][7] = {0};
 
 
 
@@ -105,21 +105,27 @@ void LCD_Gameplay(void)
 	LCD_SetTextColor(LCD_COLOR_BLUE);
 	LCD_SetFont(&Font16x24);
 
-	LCD_Draw_Vertical_Line(205,5,270,LCD_COLOR_BLACK);
-	LCD_Draw_Vertical_Line(170,5,270,LCD_COLOR_BLACK);
-	LCD_Draw_Vertical_Line(135,5,270,LCD_COLOR_BLACK);
-	LCD_Draw_Vertical_Line(100,5,270,LCD_COLOR_BLACK);
-	LCD_Draw_Vertical_Line(65,5,270,LCD_COLOR_BLACK);
-	LCD_Draw_Vertical_Line(33,5,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(205,45,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(170,45,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(135,45,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(100,45,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(65,45,270,LCD_COLOR_BLACK);
+	LCD_Draw_Vertical_Line(33,45,270,LCD_COLOR_BLACK);
 
-	LCD_Draw_Horizontal_Line(200,5,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,45,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,95,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,140,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,185,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,230,200,LCD_COLOR_BLACK);
 	LCD_Draw_Horizontal_Line(200,273,200,LCD_COLOR_BLACK);
+	LCD_Draw_Horizontal_Line(200,315,200,LCD_COLOR_BLACK);
+
 	/*******************************************************/
+	//LCD_Draw_Circle_Fill(COLUMN_SIX,295,12,LCD_COLOR_BLUE);
+	//LCD_Draw_Circle_Fill(COLUMN_SEVEN,ROW_THREE,12,LCD_COLOR_BLUE);
+	//LCD_Draw_Circle_Fill(COLUMN_ONE,ROW_THREE,12,LCD_COLOR_BLUE);
+
+
 
 
 
@@ -134,11 +140,13 @@ void LCD_Gameplay(void)
 		{
 			LCD_PieceMovement();
 			// Store value in matrix
+			// Create function for matrix manipulation cases
 			InterruptPress = 0; // Reset
+			PLAYER_PiecePlacement(current_position);
 			//PlayerOneChoice = 1;
-			LCD_Draw_Circle_Fill(current_position,ROW_THREE,12,LCD_COLOR_BLUE);
-			LCD_Draw_Circle_Fill(current_position,ROW_FOUR,12,LCD_COLOR_BLUE);
-			LCD_Draw_Circle_Fill(current_position,ROW_FIVE,12,LCD_COLOR_BLUE);
+			//LCD_Draw_Circle_Fill(current_position,ROW_THREE,12,LCD_COLOR_BLUE);
+			//LCD_Draw_Circle_Fill(current_position,ROW_FOUR,12,LCD_COLOR_BLUE);
+			//LCD_Draw_Circle_Fill(current_position,ROW_FIVE,12,LCD_COLOR_BLUE);
 
 
 		}
@@ -154,6 +162,98 @@ void LCD_Gameplay(void)
 	  }
 
     }
+
+
+void PLAYER_PiecePlacement(float vert_column)
+{
+
+	if(vert_column >= (COLUMN_ONE - 0.5) && vert_column < (COLUMN_ONE + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN1, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_TWO - 0.5) && vert_column < (COLUMN_TWO + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN2, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_THREE - 0.5) && vert_column < (COLUMN_THREE + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN3, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_FOUR - 0.5) && vert_column < (COLUMN_FOUR + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN4, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_FIVE - 0.5) && vert_column < (COLUMN_FIVE + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN5, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_SIX - 0.5) && vert_column < (COLUMN_SIX + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN6, PLAYER_ONE_TOKEN);
+	}
+
+	else if(vert_column >= (COLUMN_SEVEN - 0.5) && vert_column < (COLUMN_SEVEN + 0.5))
+	{
+		GAME_MatrixHandling(COLUMN7, PLAYER_ONE_TOKEN);
+	}
+}
+
+
+void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token)
+{
+
+	for(uint8_t row_num = 0; row_num <= 7; row_num++)
+	{
+		if(game_board[row_num][column_num] == 0)
+		{
+			game_board[row_num][column_num] = player_token;
+				switch(row_num)
+				{
+				case ROW1:
+					LCD_Draw_Circle_Fill(current_position,ROW_ZERO,12,LCD_COLOR_BLUE);
+				break;
+
+				case ROW2:
+					LCD_Draw_Circle_Fill(current_position,ROW_ONE,12,LCD_COLOR_BLUE);
+				break;
+
+				case ROW3:
+					LCD_Draw_Circle_Fill(current_position,ROW_TWO,12,LCD_COLOR_BLUE);
+				break;
+
+				case ROW4:
+					LCD_Draw_Circle_Fill(current_position,ROW_THREE,12,LCD_COLOR_BLUE);
+				break;
+
+				case ROW5:
+					LCD_Draw_Circle_Fill(current_position,ROW_FOUR,12,LCD_COLOR_BLUE);
+				break;
+
+				case ROW6:
+					LCD_Draw_Circle_Fill(current_position,ROW_FIVE,12,LCD_COLOR_BLUE);
+				break;
+				}
+
+			break; // get out of loop
+		}
+		LCD_PieceMovement();
+	}
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -185,7 +285,7 @@ void LCD_PieceMovement(void)
 		}
 		else
 		{
-			if(current_position < COLUMN_SEVEN)
+			if(current_position < COLUMN_SIX)
 			{
 				previous_position = current_position;
 				new_position = current_position + 35;

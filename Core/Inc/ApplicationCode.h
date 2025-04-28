@@ -24,22 +24,40 @@
 
 #define PLAYER_ONE_CHOICE 1
 
+#define PLAYER_ONE_TOKEN 1
+#define PLAYER_TWO_TOKEN 2
+
+#define COLUMN1 0
+#define COLUMN2 1
+#define COLUMN3 2
+#define COLUMN4 3
+#define COLUMN5 4
+#define COLUMN6 5
+#define COLUMN7 6
+
+#define ROW1 0
+#define ROW2 1
+#define ROW3 2
+#define ROW4 3
+#define ROW5 4
+#define ROW6 5
+
 
 #define COLUMN_ONE     	12.5
-#define COLUMN_TWO		(COLUMN_ONE + 35)
-#define COLUMN_THREE	(COLUMN_TWO + 35)
-#define COLUMN_FOUR		(COLUMN_THREE + 35)
-#define COLUMN_FIVE		(COLUMN_FOUR + 35)
-#define COLUMN_SIX		(COLUMN_FIVE + 35)
-#define COLUMN_SEVEN    187.5
+#define COLUMN_TWO		(COLUMN_ONE + 35)//12.5+35 = 47.5
+#define COLUMN_THREE	(COLUMN_TWO + 35)//47.5+35 = 82.5
+#define COLUMN_FOUR		(COLUMN_THREE + 35)//82.5+35 = 117.5
+#define COLUMN_FIVE		(COLUMN_FOUR + 35) //117.5+35=152.5
+#define COLUMN_SIX		(COLUMN_FIVE + 35)//
+#define COLUMN_SEVEN    (COLUMN_SIX + 35)
 
+#define ROW_ZERO        295
 #define ROW_ONE			250
 #define ROW_TWO 		ROW_ONE - 40
 #define ROW_THREE		ROW_TWO - 50
 #define ROW_FOUR		ROW_THREE - 40
-#define ROW_FIVE		ROW_FOUR - 50
+#define ROW_FIVE	    ROW_FOUR - 50
 #define ROW_SIX			25
-
 
 #define PIECE_POS_INIT 82.5
 #define PIECE_MIN_XVAL 12.5
@@ -52,6 +70,10 @@ void LCD_Visual_Demo(void);
 
 void LCD_Gameplay(void);
 void LCD_PieceMovement(void);
+
+void PLAYER_PiecePlacement(float vert_column);
+
+void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token);
 
 
 void appDelay(uint32_t time);
