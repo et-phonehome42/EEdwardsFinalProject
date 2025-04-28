@@ -44,7 +44,7 @@ I2C_HandleTypeDef hi2c3;
 
 LTDC_HandleTypeDef hltdc;
 
-RNG_HandleTypeDef hrng;
+//RNG_HandleTypeDef hrng;
 
 SPI_HandleTypeDef hspi5;
 
@@ -58,7 +58,7 @@ TIM_HandleTypeDef htim2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_LTDC_Init(void);
-static void MX_RNG_Init(void);
+//static void MX_RNG_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_SPI5_Init(void);
 static void MX_I2C3_Init(void);
@@ -101,13 +101,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LTDC_Init();
-  MX_RNG_Init();
+  //MX_RNG_Init();
   MX_TIM2_Init();
   MX_SPI5_Init();
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
   ApplicationInit(); // Initializes the LCD functionality
-  InitButtonInterrupts();
+  //InitButtonInterrupts();
   //LCD_Visual_Demo();
   HAL_Delay(2000);
   /* USER CODE END 2 */
@@ -305,8 +305,8 @@ static void MX_LTDC_Init(void)
   * @param None
   * @retval None
   */
-static void MX_RNG_Init(void)
-{
+//static void MX_RNG_Init(void)
+//{
 
   /* USER CODE BEGIN RNG_Init 0 */
 
@@ -315,20 +315,17 @@ static void MX_RNG_Init(void)
   /* USER CODE BEGIN RNG_Init 1 */
 
   /* USER CODE END RNG_Init 1 */
-  hrng.Instance = RNG;
-  //hrng.Init.Lock = 42;
-  //hrng.Init.State = 42;
-  //hrng.Init.ErrorCode = 42;
-  //hrng.Init.RandomNumber = 42;
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
-  {
-    Error_Handler();
-  }
+//  hrng.Instance = RNG;
+
+//  if (HAL_RNG_Init(&hrng) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
   /* USER CODE BEGIN RNG_Init 2 */
 
   /* USER CODE END RNG_Init 2 */
 
-}
+//}
 
 /**
   * @brief SPI5 Initialization Function

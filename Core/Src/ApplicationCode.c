@@ -26,12 +26,15 @@ static uint8_t current_position = COLUMN_FOUR;
 static uint8_t new_position = 0;
 static uint8_t previous_position =0;
 static uint8_t game_board[6][7] = {0};
+static uint8_t RNG_Player_Marker = 0;
 
-
+RNG_HandleTypeDef hrng;
 
 void ApplicationInit(void)
 {
 	initialise_monitor_handles(); // Allows printf functionality
+	InitButtonInterrupts();
+	MX_RNG_Init();
     LTCD__Init();
     LTCD_Layer_Init(0);
     LCD_Clear(0,LCD_COLOR_WHITE);
@@ -44,6 +47,17 @@ void ApplicationInit(void)
 	StaticTouchData.orientation = STMPE811_Orientation_Portrait_2;
 
 	#endif // COMPILE_TOUCH_FUNCTIONS
+}
+
+static void MX_RNG_Init(void)
+{
+  hrng.Instance = RNG;
+
+  if (HAL_RNG_Init(&hrng) != HAL_OK)
+  {
+    LCD_Error_Handler();
+  }
+
 }
 
 void LCD_Visual_Demo(void)
@@ -154,7 +168,10 @@ void LCD_Gameplay(void)
 		{
 			//Random Generator
 			HAL_Delay(1000);
+			RNG_Player_Marker = 1;
+			RNG_PlayerTurn();
 			PlayerOneChoice = 1;
+			RNG_Player_Marker = 0;
 
 		}
 
@@ -162,6 +179,56 @@ void LCD_Gameplay(void)
 	  }
 
     }
+
+
+
+void RNG_PlayerTurn()
+{
+	uint32_t rand32bit;
+	HAL_RNG_GenerateRandomNumber(&hrng, &rand32bit);
+	RNG_PiecePlacement(rand32bit);
+}
+
+
+void RNG_PiecePlacement(uint32_t num)
+{
+	uint8_t column_num = num % 7;
+
+				switch(column_num)
+				{
+				case COLUMN1:
+					GAME_MatrixHandling(COLUMN1, PLAYER_TWO_TOKEN);
+				break;
+
+				case COLUMN2:
+					GAME_MatrixHandling(COLUMN2, PLAYER_TWO_TOKEN);
+				break;
+
+				case COLUMN3:
+
+					GAME_MatrixHandling(COLUMN3, PLAYER_TWO_TOKEN);
+				break;
+
+				case COLUMN4:
+
+					GAME_MatrixHandling(COLUMN4, PLAYER_TWO_TOKEN);
+				break;
+
+				case COLUMN5:
+
+					GAME_MatrixHandling(COLUMN5, PLAYER_TWO_TOKEN);
+				break;
+
+				case COLUMN6:
+					GAME_MatrixHandling(COLUMN6, PLAYER_TWO_TOKEN);
+				break;
+
+				default:
+					GAME_MatrixHandling(COLUMN7, PLAYER_TWO_TOKEN);
+				break;
+				}
+		}
+
 
 
 void PLAYER_PiecePlacement(float vert_column)
@@ -207,7 +274,7 @@ void PLAYER_PiecePlacement(float vert_column)
 void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token)
 {
 
-	for(uint8_t row_num = 0; row_num <= 7; row_num++)
+	for(uint8_t row_num = 0; row_num < 6; row_num++)
 	{
 		if(game_board[row_num][column_num] == 0)
 		{
@@ -215,38 +282,84 @@ void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token)
 				switch(row_num)
 				{
 				case ROW1:
-					LCD_Draw_Circle_Fill(current_position,ROW_ZERO,12,LCD_COLOR_BLUE);
+					PIECE_PlayerColor(player_token, ROW_ZERO, column_num);
 				break;
 
 				case ROW2:
-					LCD_Draw_Circle_Fill(current_position,ROW_ONE,12,LCD_COLOR_BLUE);
+					PIECE_PlayerColor(player_token, ROW_ONE, column_num);
 				break;
 
 				case ROW3:
-					LCD_Draw_Circle_Fill(current_position,ROW_TWO,12,LCD_COLOR_BLUE);
+
+					PIECE_PlayerColor(player_token, ROW_TWO, column_num);
 				break;
 
 				case ROW4:
-					LCD_Draw_Circle_Fill(current_position,ROW_THREE,12,LCD_COLOR_BLUE);
+
+					PIECE_PlayerColor(player_token, ROW_THREE, column_num);
 				break;
 
 				case ROW5:
-					LCD_Draw_Circle_Fill(current_position,ROW_FOUR,12,LCD_COLOR_BLUE);
+
+					PIECE_PlayerColor(player_token, ROW_FOUR, column_num);
 				break;
 
 				case ROW6:
-					LCD_Draw_Circle_Fill(current_position,ROW_FIVE,12,LCD_COLOR_BLUE);
+					PIECE_PlayerColor(player_token, ROW_FIVE, column_num);
+				break;
+
+				default:
+
 				break;
 				}
 
 			break; // get out of loop
 		}
-		LCD_PieceMovement();
+
 	}
 
 }
 
+void PIECE_PlayerColor(uint8_t color, float row, uint8_t column)
+{
+	switch(color)
+	{
+	case PLAYER_ONE_TOKEN:
+		LCD_Draw_Circle_Fill(current_position,row,12,LCD_COLOR_BLUE);
+	break;
 
+	case PLAYER_TWO_TOKEN:
+		if(column == COLUMN1)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_ONE,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN2)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_TWO,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN3)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_THREE,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN4)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_FOUR,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN5)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_FIVE,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN6)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_SIX,row,12,LCD_COLOR_GREY);
+		}
+		else if(column == COLUMN7)
+		{
+			LCD_Draw_Circle_Fill(COLUMN_SEVEN,row,12,LCD_COLOR_GREY);
+		}
+	break;
+	}
+}
 
 
 

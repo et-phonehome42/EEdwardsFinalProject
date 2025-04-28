@@ -27,6 +27,18 @@
 #define PLAYER_ONE_TOKEN 1
 #define PLAYER_TWO_TOKEN 2
 
+#define COL1 1
+#define COL2 2
+#define COL3 3
+#define COL4 4
+#define COL5 5
+#define COL6 6
+#define COL7 7
+
+
+
+
+
 #define COLUMN1 0
 #define COLUMN2 1
 #define COLUMN3 2
@@ -71,7 +83,12 @@ void LCD_Visual_Demo(void);
 void LCD_Gameplay(void);
 void LCD_PieceMovement(void);
 
+void RNG_PlayerTurn();
+
+
+void RNG_PiecePlacement(uint32_t num);
 void PLAYER_PiecePlacement(float vert_column);
+void PIECE_PlayerColor(uint8_t color, float row, uint8_t column);
 
 void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token);
 
@@ -79,6 +96,8 @@ void GAME_MatrixHandling(uint8_t column_num, uint8_t player_token);
 void appDelay(uint32_t time);
 void ApplInitButton();
 void ApplInitButtonInterrupts();
+
+static void MX_RNG_Init(void);
 
 #if (COMPILE_TOUCH_FUNCTIONS == 1)
 void LCD_Touch_Polling_Demo(void);
